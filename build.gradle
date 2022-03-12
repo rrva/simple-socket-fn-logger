@@ -1,0 +1,28 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'application'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+group 'codes.recursive'
+
+mainClassName = 'codes.recursive.Main'
+
+configurations {
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-release/" }
+}
+
+dependencies {
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+}
+
+task runServer(dependsOn: 'classes', type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = mainClassName
+    systemProperties = System.getProperties()
+}
