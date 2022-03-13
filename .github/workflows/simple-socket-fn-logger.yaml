@@ -90,7 +90,7 @@ jobs:
 
       - name: 'Install Native Image Plugin'
         run: |
-        gu install native-image
+          gu install native-image
 
       - name: 'Set up Visual C Build Tools Workload for Visual Studio 2017 Build Tools'
         run: |
