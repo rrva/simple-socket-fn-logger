@@ -28,6 +28,12 @@ jobs:
         run: |
           ./gradlew shadowJar
 
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+          build
 
   windows-image:
     needs: [build-jar-job]
@@ -49,7 +55,7 @@ jobs:
       - name: 'Get JAR Artifact'
         uses: actions/download-artifact@v3.0.0
         with:
-          name: 'simple-socket-fn-logger-${{env.VERSION}}-all.jar'
+          name: build
 
       - name: 'Build Native Image'
         shell: cmd
