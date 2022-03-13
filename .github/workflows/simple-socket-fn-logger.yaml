@@ -91,6 +91,7 @@ jobs:
           java: java11
 
       - name: 'Install Native Image Plugin'
+        shell: cmd
         run: |
           gu install native-image
 
@@ -104,6 +105,7 @@ jobs:
           name: 'simple-socket-fn-logger-${{env.VERSION}}-all.jar'
 
       - name: 'Build Native Image'
+        shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
           native-image --no-server --no-fallback -H:ReflectionConfigurationResources=reflection-config.json -H:IncludeResources=logback.xml -H:Name=simple-socket-fn-logger-${{env.VERSION}}-all --allow-incomplete-classpath -jar simple-socket-fn-logger-${{env.VERSION}}-all.jar
