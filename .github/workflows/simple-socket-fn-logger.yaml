@@ -33,7 +33,7 @@ jobs:
         with:
           name: build
           path: |
-          build
+            build
 
   windows-image:
     needs: [build-jar-job]
