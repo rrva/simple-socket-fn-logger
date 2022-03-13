@@ -62,3 +62,11 @@ jobs:
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
           native-image --no-server --no-fallback -H:ReflectionConfigurationResources=reflection-config.json -H:IncludeResources=logback.xml -H:Name=simple-socket-fn-logger-1.0.0-all --allow-incomplete-classpath -jar simple-socket-fn-logger-1.0.0-all.jar
+          
+      - name: Archive Binary
+        uses: actions/upload-artifact@v2.3.1
+        with: 
+          name: simple.exe
+          path: |
+            simple-socket-fn-logger-1.0.0-all.exe
+            sunmscapi.dll
