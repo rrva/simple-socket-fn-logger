@@ -31,9 +31,9 @@ jobs:
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build
+          name: jar
           path: |
-            build
+            build/libs/simple-socket-fn-logger-1.0.0-all.jar
 
   windows-image:
     needs: [build-jar-job]
@@ -55,10 +55,10 @@ jobs:
       - name: 'Get JAR Artifact'
         uses: actions/download-artifact@v3.0.0
         with:
-          name: build
+          name: jar
 
       - name: 'Build Native Image'
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-          native-image --no-server --no-fallback -H:ReflectionConfigurationResources=reflection-config.json -H:IncludeResources=logback.xml -H:Name=simple-socket-fn-logger-${{env.VERSION}}-all --allow-incomplete-classpath -jar simple-socket-fn-logger-${{env.VERSION}}-all.jar
+          native-image --no-server --no-fallback -H:ReflectionConfigurationResources=reflection-config.json -H:IncludeResources=logback.xml -H:Name=simple-socket-fn-logger-1.0.0-all --allow-incomplete-classpath -jar simple-socket-fn-logger-1.0.0-all.jar
