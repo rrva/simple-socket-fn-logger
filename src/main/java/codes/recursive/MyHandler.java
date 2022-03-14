@@ -17,7 +17,7 @@ class MyHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        logger.info("Got request {} {} {} {}", t.getRequestMethod(), t.getRequestURI().getPath(), dumpHeaders(t), t.getRemoteAddress());
+        logger.info("Got request {} {} {} {} {}", new String(t.getRequestBody().readAllBytes()) ,t.getRequestMethod(), t.getRequestURI().getPath(), dumpHeaders(t), t.getRemoteAddress());
 
         String response = "Thanks";
         t.sendResponseHeaders(200, response.length());

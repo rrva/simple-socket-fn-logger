@@ -17,7 +17,7 @@ public class Main {
         server.setExecutor(null);
         server.start();
 
-        logger.info("Listening on localhost:{}...", port);
+        logger.info("Listening on {}...", port);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("Server shutting down. Goodbye...");
