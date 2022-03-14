@@ -35,6 +35,37 @@ jobs:
           path: |
             build/libs/simple-socket-fn-logger-1.0.0-all.jar
 
+  linux-image:
+    needs: [ build-jar-job ]
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - name: Set up GraalVM (Java 11)
+        uses: graalvm/setup-graalvm@v1.0.2
+        with:
+          version: '${{ env.graalvm_version }}'
+          java-version: '11'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Get JAR Artifact'
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: jar
+
+      - name: 'Build Native Image'
+        run: |
+          native-image --no-server --no-fallback -H:ReflectionConfigurationResources=reflection-config.json -H:IncludeResources=logback.xml --allow-incomplete-classpath -jar simple-socket-fn-logger-1.0.0-all.jar
+
+      - name: Archive Binary
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: simple.exe
+          path: |
+            simple-socket-fn-logger-1.0.0-all
+
   windows-image:
     needs: [build-jar-job]
     runs-on: windows-latest
