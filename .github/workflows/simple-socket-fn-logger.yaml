@@ -37,7 +37,7 @@ jobs:
 
   linux-image:
     needs: [ build-jar-job ]
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2.4.0
