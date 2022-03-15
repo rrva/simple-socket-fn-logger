@@ -5,7 +5,7 @@
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>%cyan(%d{MMM dd HH:mm:ss.SSS}) - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS}%n%msg%n</pattern>
         </encoder>
     </appender>
 
