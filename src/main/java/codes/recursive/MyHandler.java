@@ -1,5 +1,8 @@
 package codes.recursive;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.slf4j.Logger;
@@ -14,11 +17,18 @@ import java.util.stream.Collectors;
 
 class MyHandler implements HttpHandler {
     Logger logger = LoggerFactory.getLogger(Main.class);
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void handle(HttpExchange t) throws IOException {
-        logger.info("{}", new String(t.getRequestBody().readAllBytes()));
-
+        byte[] bytes = t.getRequestBody().readAllBytes();
+        String arg = new String(bytes);
+        try {
+            JsonNode node = objectMapper.readTree(arg);
+            logger.info("{}", node);
+        } catch (JsonProcessingException e) {
+            logger.info("{}", arg);
+        }
         String response = "Thanks";
         t.sendResponseHeaders(200, response.length());
         OutputStream os = t.getResponseBody();

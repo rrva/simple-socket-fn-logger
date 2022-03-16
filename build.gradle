@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.11'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2'
 }
 
 task runServer(dependsOn: 'classes', type: JavaExec) {
