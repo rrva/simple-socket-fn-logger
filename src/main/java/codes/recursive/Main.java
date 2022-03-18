@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
 
@@ -14,7 +16,8 @@ public class Main {
         int port = args.length > 0 ? Integer.parseInt(args[0]) : Integer.parseInt( System.getProperty("port", "8080") );
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new MyHandler());
-        server.setExecutor(null);
+        final ExecutorService executorService = Executors.newFixedThreadPool(4);
+        server.setExecutor(executorService);
         server.start();
 
         logger.info("Listening on {}...", port);

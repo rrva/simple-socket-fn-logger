@@ -1,7 +1,6 @@
 package codes.recursive;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -9,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -20,20 +18,20 @@ class MyHandler implements HttpHandler {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void handle(HttpExchange t) throws IOException {
-        byte[] bytes = t.getRequestBody().readAllBytes();
-        String arg = new String(bytes);
-        try {
-            JsonNode node = objectMapper.readTree(arg);
-            logger.info("{}", node);
-        } catch (JsonProcessingException e) {
-            logger.info("{}", arg);
+    public void handle(HttpExchange exchange) throws IOException {
+        byte[] bytes = exchange.getRequestBody().readAllBytes();
+        try  {
+            try {
+                logger.info("{}", objectMapper.readTree(bytes));
+            } catch (JsonProcessingException e) {
+                logger.info("{}", new String(bytes));
+            }
+        } catch (Exception e) {
+            logger.error("error: {}", e.getMessage(), e);
+        } finally {
+            exchange.sendResponseHeaders(200, 0);
+            exchange.close();
         }
-        String response = "Thanks";
-        t.sendResponseHeaders(200, response.length());
-        OutputStream os = t.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
     }
 
     private String dumpHeaders(HttpExchange t) {
