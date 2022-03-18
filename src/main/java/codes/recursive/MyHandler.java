@@ -20,14 +20,10 @@ class MyHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         byte[] bytes = exchange.getRequestBody().readAllBytes();
-        try  {
-            try {
-                logger.info("{}", objectMapper.readTree(bytes));
-            } catch (JsonProcessingException e) {
-                logger.info("{}", new String(bytes));
-            }
-        } catch (Exception e) {
-            logger.error("error: {}", e.getMessage(), e);
+        try {
+            logger.info("{}", objectMapper.readTree(bytes));
+        } catch (JsonProcessingException e) {
+            logger.info("{}", new String(bytes));
         } finally {
             exchange.sendResponseHeaders(200, 0);
             exchange.close();
